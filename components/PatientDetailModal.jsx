@@ -29,8 +29,12 @@ export default function PatientDetailModal({ patient, onClose, onUpdated, isDemo
       Swal.fire("Demo mode", "Adding details is disabled in demo mode.", "info");
       return;
     }
-    if (!form.disease) {
-      Swal.fire("Missing disease", "Please enter a disease.", "warning");
+    if (!form.disease.trim()) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing required field",
+        text: "Please fill in the Disease field before adding this detail.",
+      });
       return;
     }
 
@@ -67,8 +71,12 @@ export default function PatientDetailModal({ patient, onClose, onUpdated, isDemo
   };
 
   const saveEdit = async (detailId) => {
-    if (!editForm.disease) {
-      Swal.fire("Missing disease", "Please enter a disease.", "warning");
+    if (!editForm.disease.trim()) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing required field",
+        text: "Please fill in the Disease field before saving.",
+      });
       return;
     }
     setEditSaving(true);
@@ -222,6 +230,7 @@ export default function PatientDetailModal({ patient, onClose, onUpdated, isDemo
         <form
           onSubmit={handleAdd}
           className="space-y-2 rounded-lg border border-dashed border-slate-300 p-3"
+          noValidate
         >
           <p className="text-xs font-semibold text-slate-500">Add more disease detail</p>
           <div className="grid grid-cols-2 gap-2">

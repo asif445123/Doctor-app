@@ -66,6 +66,33 @@ export default function PatientModal({ patient, onClose, onSaved, isDemo }) {
       return;
     }
 
+    const missing = [];
+    if (!form.date) missing.push("Date");
+    if (!form.age) missing.push("Age");
+    if (!form.patientName.trim()) missing.push("Patient Name");
+    if (!form.disease.trim()) missing.push("Disease");
+
+    if (missing.length) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing required fields",
+        html: `Please fill in: <b>${missing.join(", ")}</b>`,
+      });
+      return;
+    }
+
+    const incompleteRow = extraDetails.find(
+      (row) => (row.medicine || row.note) && !row.disease.trim()
+    );
+    if (incompleteRow) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing disease",
+        text: "Please fill in the Disease field for every extra detail row you've started, or remove the row.",
+      });
+      return;
+    }
+
     setSaving(true);
     try {
       let saved;
@@ -111,7 +138,7 @@ export default function PatientModal({ patient, onClose, onSaved, isDemo }) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="mb-1 block text-xs font-medium text-slate-600">Date</label>
