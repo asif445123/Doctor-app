@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { Suspense, useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
 import { useAuth } from "@/context/AuthContext";
@@ -11,7 +11,7 @@ import PatientTable from "@/components/PatientTable";
 import PatientModal from "@/components/PatientModal";
 import PatientDetailModal from "@/components/PatientDetailModal";
 
-export default function DashboardPage() {
+function DashboardContent() {
   const { user, isDemo, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -173,5 +173,13 @@ export default function DashboardPage() {
         />
       )}
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={null}>
+      <DashboardContent />
+    </Suspense>
   );
 }
