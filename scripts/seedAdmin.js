@@ -1,7 +1,7 @@
 // Run once: npm run seed:admin
 // Creates (or promotes) the first admin account so you can log in and approve others.
-
 require("dotenv").config({ path: ".env.local" });
+
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
@@ -26,15 +26,16 @@ const ADMIN_PASSWORD = process.env.ADMIN_BOOTSTRAP_PASSWORD || "Admin@12345";
 (async () => {
   await mongoose.connect(process.env.MONGO_URI);
 
+  const hashed = await bcrypt.hash(ADMIN_PASSWORD, 10);
   let user = await User.findOne({ email: ADMIN_EMAIL });
 
   if (user) {
     user.role = "admin";
     user.status = "approved";
+    user.password = hashed; // always reset to a known password, even if one already existed
     await user.save();
-    console.log("Existing user promoted to admin:", ADMIN_EMAIL);
+    console.log("Existing user promoted to admin, password reset:", ADMIN_EMAIL, "password:", ADMIN_PASSWORD);
   } else {
-    const hashed = await bcrypt.hash(ADMIN_PASSWORD, 10);
     user = await User.create({
       name: ADMIN_NAME,
       email: ADMIN_EMAIL,
