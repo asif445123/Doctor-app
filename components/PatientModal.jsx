@@ -151,7 +151,19 @@ export default function PatientModal({ patient, onClose, onSaved, isDemo }) {
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium text-slate-600">Age</label>
+             <AutocompleteInput
+            label="Patient Name"
+            field="patientName"
+            value={form.patientName}
+            onChange={set("patientName")}
+            required
+          />
+            </div>
+          </div>
+
+           <div className="grid grid-cols-2 gap-4">
+           <div>
+           <label className="mb-1 block text-xs font-medium text-slate-600">Age</label>
               <input
                 type="number"
                 min="0"
@@ -160,25 +172,8 @@ export default function PatientModal({ patient, onClose, onSaved, isDemo }) {
                 onChange={(e) => set("age")(e.target.value)}
                 required
               />
-            </div>
-          </div>
-
-          <AutocompleteInput
-            label="Patient Name"
-            field="patientName"
-            value={form.patientName}
-            onChange={set("patientName")}
-            required
-          />
-
-          <AutocompleteInput
-            label="House Address"
-            field="houseAddress"
-            value={form.houseAddress}
-            onChange={set("houseAddress")}
-          />
-
-          <div className="grid grid-cols-2 gap-4">
+              </div>
+            <div>
             <AutocompleteInput
               label="Disease"
               field="disease"
@@ -187,6 +182,9 @@ export default function PatientModal({ patient, onClose, onSaved, isDemo }) {
               required
               multiValue
             />
+            </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
             <AutocompleteInput
               label="Medicine"
               field="medicine"
@@ -194,7 +192,6 @@ export default function PatientModal({ patient, onClose, onSaved, isDemo }) {
               onChange={set("medicine")}
               multiValue
             />
-          </div>
 
           <AutocompleteInput
             label="Note"
@@ -203,7 +200,16 @@ export default function PatientModal({ patient, onClose, onSaved, isDemo }) {
             onChange={set("note")}
             multiValue
           />
-
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+          <div>
+            <AutocompleteInput
+            label="House Address"
+            field="houseAddress"
+            value={form.houseAddress}
+            onChange={set("houseAddress")}
+          />
+          </div>
           <div>
             <label className="mb-1 block text-xs font-medium text-slate-600">Amount</label>
             <input
@@ -213,7 +219,10 @@ export default function PatientModal({ patient, onClose, onSaved, isDemo }) {
               value={form.amount}
               onChange={(e) => set("amount")(e.target.value)}
             />
+            </div>
           </div>
+
+         
 
           {/* Existing disease details, read-only reference */}
           {patient?.diseaseDetails?.length > 0 && (

@@ -18,10 +18,10 @@ export default function PatientTable({ patients, onRowClick, onEdit, onDelete, i
             <th className="px-4 py-3">Date</th>
             <th className="px-4 py-3">Patient Name</th>
             <th className="px-4 py-3">Age</th>
-            <th className="px-4 py-3">House Address</th>
             <th className="px-4 py-3">Disease</th>
             <th className="px-4 py-3">Medicine</th>
             <th className="px-4 py-3">Amount</th>
+            <th className="px-4 py-3">House Address</th>
             <th className="px-4 py-3 text-right">Actions</th>
           </tr>
         </thead>
@@ -36,11 +36,13 @@ export default function PatientTable({ patients, onRowClick, onEdit, onDelete, i
               <td className="px-4 py-3">{p.date?.slice(0, 10)}</td>
               <td className="px-4 py-3 font-medium">{p.patientName}</td>
               <td className="px-4 py-3">{p.age}</td>
-              <td className="px-4 py-3">{p.houseAddress}</td>
+              
               <td className="px-4 py-3">{p.disease}</td>
               <td className="px-4 py-3">{p.medicine}</td>
               <td className="px-4 py-3">{p.amount}</td>
+              <td className="px-4 py-3">{p.houseAddress}</td>
               <td className="px-4 py-3">
+                
                 <div className="flex items-center justify-end gap-3">
                   <button
                     onClick={(e) => {
