@@ -46,6 +46,20 @@ export async function DELETE(request, { params }) {
     if (error) return error;
 
     await patient.deleteOne();
+
+    // Renumber the user's remaining patients so Sr. No stays gap-free (1, 2, 3, ...)
+    // in the same order they were originally added.
+    const remaining = await Patient.find({ createdBy: user._id }).sort({ createdAt: 1 });
+    const bulkOps = remaining.map((p, idx) => ({
+      updateOne: {
+        filter: { _id: p._id },
+        update: { srNo: idx + 1 },
+      },
+    }));
+    if (bulkOps.length) {
+      await Patient.bulkWrite(bulkOps);
+    }
+
     return NextResponse.json({ message: "Patient removed" });
   } catch (err) {
     return NextResponse.json(
