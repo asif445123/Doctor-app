@@ -1,6 +1,7 @@
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import AdBanner from "@/components/AdBanner";
 
 export const metadata = {
   metadataBase: new URL("https://your-doctor-app-domain.com"),
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           {children}
           <FloatingWhatsApp />
+          <AdBanner />
         </AuthProvider>
       </body>
     </html>
