@@ -1,3 +1,5 @@
 node_modules
 .next
 config.bat
+.env.local
+.env.development.local

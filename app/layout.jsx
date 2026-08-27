@@ -4,7 +4,7 @@ import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import AdBanner from "@/components/AdBanner";
 
 export const metadata = {
-  metadataBase: new URL("https://your-doctor-app-domain.com"),
+  metadataBase: new URL("https://doctor-app-rflv.onrender.com"),
   title: {
     default: "Doctor App | Patient Record Management",
     template: "%s | Doctor App",
@@ -20,6 +20,13 @@ export const metadata = {
   ],
   icons: {
     icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Doctor App",
   },
   openGraph: {
     title: "Doctor App | Patient Record Management",
@@ -32,6 +39,10 @@ export const metadata = {
     index: true,
     follow: true,
   },
+};
+
+export const viewport = {
+  themeColor: "#1d4ed8",
 };
 
 export default function RootLayout({ children }) {
