@@ -58,7 +58,6 @@ export default function Navbar() {
         🩺 Doctor App
       </Link>
 
-      {/* Desktop nav row — hidden on mobile, so the same links are repeated in the dropdown below */}
       <div className="hidden items-center gap-5 sm:flex">
         {!isDemo && user && (
           <Link
@@ -99,38 +98,6 @@ export default function Navbar() {
 
         {open && (
           <div className="absolute right-0 mt-2 w-56 rounded-xl border border-slate-100 bg-white p-2 shadow-lg">
-            {/* Mobile-only: same links as the desktop nav row, reachable via the avatar on small screens */}
-            <div className="sm:hidden">
-              {!isDemo && user && (
-                <Link
-                  href="/dashboard?add=1"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-slate-100"
-                >
-                  <FaPlus size={14} /> Add Patient
-                </Link>
-              )}
-              {!isDemo && user?.role === "admin" && (
-                <Link
-                  href="/admin/approvals"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-slate-100"
-                >
-                  <FaCheckCircle size={14} /> User approvals
-                </Link>
-              )}
-              <button
-                onClick={() => {
-                  setOpen(false);
-                  setContactOpen(true);
-                }}
-                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-slate-100"
-              >
-                <FaEnvelope size={14} /> Contact Us
-              </button>
-              <div className="my-1 border-t border-slate-100" />
-            </div>
-
             {isDemo ? (
               <div className="px-3 py-2 text-xs text-slate-500">
                 Demo mode — settings disabled.
