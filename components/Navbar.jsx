@@ -23,16 +23,11 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  // Fixed: Added optional chaining to prevent crashes if user.name is missing
   const initials = isDemo
     ? "DE"
-    : user
-    ? user.name
-        .trim()
-        .split(/\s+/)
-        .map((p) => p[0])
-        .join("")
-        .toUpperCase()
-        .slice(0, 2)
+    : user?.name
+    ? user.name.trim().split(/\s+/).map((p) => p[0]).join("").toUpperCase().slice(0, 2)
     : "?";
 
   const displayName = isDemo ? "Demo User" : user?.name || "";
@@ -58,36 +53,26 @@ export default function Navbar() {
         🩺 Doctor App
       </Link>
 
+      {/* Desktop Nav Row */}
       <div className="hidden items-center gap-5 sm:flex">
         {!isDemo && user && (
-          <Link
-            href="/dashboard?add=1"
-            className="flex items-center gap-1 text-sm text-slate-600 hover:text-brand-600"
-          >
+          <Link href="/dashboard?add=1" className="flex items-center gap-1 text-sm text-slate-600 hover:text-brand-600">
             <FaPlus size={12} /> Add Patient
           </Link>
         )}
         {!isDemo && user?.role === "admin" && (
-          <Link
-            href="/admin/approvals"
-            className="flex items-center gap-1 text-sm text-slate-600 hover:text-brand-600"
-          >
+          <Link href="/admin/approvals" className="flex items-center gap-1 text-sm text-slate-600 hover:text-brand-600">
             <FaCheckCircle size={13} /> User approvals
           </Link>
         )}
-        <button
-          onClick={() => setContactOpen(true)}
-          className="flex items-center gap-1 text-sm text-slate-500 hover:text-brand-600"
-        >
+        <button onClick={() => setContactOpen(true)} className="flex items-center gap-1 text-sm text-slate-500 hover:text-brand-600">
           <FaEnvelope size={13} /> Contact Us
         </button>
       </div>
 
+      {/* Avatar / Dropdown */}
       <div className="relative" ref={ref}>
-        <button
-          onClick={() => setOpen((o) => !o)}
-          className="flex items-center gap-2 rounded-full py-1 pl-1 pr-3 hover:bg-slate-50"
-        >
+        <button onClick={() => setOpen((o) => !o)} className="flex items-center gap-2 rounded-full py-1 pl-1 pr-3 hover:bg-slate-50">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-600 text-sm font-semibold text-white">
             {initials}
           </span>
@@ -98,6 +83,32 @@ export default function Navbar() {
 
         {open && (
           <div className="absolute right-0 mt-2 w-56 rounded-xl border border-slate-100 bg-white p-2 shadow-lg">
+            
+            {/* Mobile-only: Nav links inside the dropdown */}
+            <div className="sm:hidden">
+              {!isDemo && user && (
+                <Link href="/dashboard?add=1" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-slate-100">
+                  <FaPlus size={14} /> Add Patient
+                </Link>
+              )}
+              {!isDemo && user?.role === "admin" && (
+                <Link href="/admin/approvals" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-slate-100">
+                  <FaCheckCircle size={14} /> User approvals
+                </Link>
+              )}
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  setContactOpen(true);
+                }}
+                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-slate-100"
+              >
+                <FaEnvelope size={14} /> Contact Us
+              </button>
+              <div className="my-1 border-t border-slate-100" />
+            </div>
+
+            {/* User Settings / Logout */}
             {isDemo ? (
               <div className="px-3 py-2 text-xs text-slate-500">
                 Demo mode — settings disabled.
@@ -108,19 +119,12 @@ export default function Navbar() {
                   <p className="text-sm font-medium">{user?.name}</p>
                   <p className="text-xs text-slate-500">{user?.email}</p>
                 </div>
-                <Link
-                  href="/dashboard/settings"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-slate-100"
-                >
+                <Link href="/dashboard/settings" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-slate-100">
                   <FaCog size={14} /> Settings
                 </Link>
               </>
             )}
-            <button
-              onClick={handleLogout}
-              className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
-            >
+            <button onClick={handleLogout} className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50">
               <FaSignOutAlt size={14} /> Logout
             </button>
           </div>
